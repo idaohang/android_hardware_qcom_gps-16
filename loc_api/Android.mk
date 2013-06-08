@@ -29,7 +29,16 @@ endif #TARGET_NO_RPC
 
 endif
 
+ifneq ($(BOARD_VENDOR_QCOM_GPS_LOC_API_AMSS_VERSION),50001)
+
+GPS_DIR_LIST += $(LOCAL_PATH)/libloc_api-rpc/
+GPS_DIR_LIST += $(LOCAL_PATH)/libloc_api/
+
+else
+
 GPS_DIR_LIST += $(LOCAL_PATH)/libloc_api_50001/
+
+endif
 
 #call the subfolders
 include $(addsuffix Android.mk, $(GPS_DIR_LIST))
