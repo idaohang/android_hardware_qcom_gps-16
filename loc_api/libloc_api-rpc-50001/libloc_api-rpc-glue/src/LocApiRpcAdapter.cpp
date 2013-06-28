@@ -308,7 +308,7 @@ LocApiRpcAdapter::setPositionMode(LocPositionMode mode,
     rpc_loc_operation_mode_e_type op_mode;
     int                          ret_val;
 
-    LOGD ("loc_eng_set_position mode, client = %d, interval = %d, mode = %d\n",
+    ALOGD ("loc_eng_set_position mode, client = %d, interval = %d, mode = %d\n",
           (int32) client_handle, min_interval, mode);
 
     switch (mode)

@@ -34,7 +34,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
-// Uncomment to keep all LOG messages (LOGD, LOGI, LOGV, etc.)
+// Uncomment to keep all LOG messages (ALOGD, ALOGI, ALOGV, etc.)
 #define MAX_NUM_ATL_CONNECTIONS  2
 // Define boolean type to be used by libgps on loc api module
 typedef unsigned char boolean;

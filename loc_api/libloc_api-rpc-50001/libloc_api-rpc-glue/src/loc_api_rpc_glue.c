@@ -62,8 +62,8 @@
 /* Logging Improvement */
 #include "log_util.h"
 
-/* Uncomment to force LOGD messages */
-// #define LOGD LOGI
+/* Uncomment to force ALOGD messages */
+// #define ALOGD ALOGI
 
 /*=====================================================================
      External declarations

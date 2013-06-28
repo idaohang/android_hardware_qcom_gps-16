@@ -48,8 +48,8 @@
 #include <utils/Log.h>
 
 // comment this out to enable logging
-// #undef LOGD
-// #define LOGD(...) {}
+// #undef ALOGD
+// #define ALOGD(...) {}
 
 // Function declarations
 static boolean loc_eng_ioctl_setup_cb(
@@ -93,7 +93,7 @@ boolean loc_eng_ioctl(
     int                        rpc_ret_val;
     loc_eng_ioctl_data_s_type *ioctl_cb_data_ptr;
 
-    LOGV ("loc_eng_ioctl: client = %d, ioctl_type = %d, cb_data =0x%x\n", (int32) handle, ioctl_type, (uint32) cb_data_ptr);
+    ALOGV ("loc_eng_ioctl: client = %d, ioctl_type = %d, cb_data =0x%x\n", (int32) handle, ioctl_type, (uint32) cb_data_ptr);
 
     ioctl_cb_data_ptr = &(loc_eng_data.ioctl_data);
     // Select the callback we are waiting for
@@ -105,7 +105,7 @@ boolean loc_eng_ioctl(
                                     ioctl_type,
                                     ioctl_data_ptr);
 
-        LOGV ("loc_eng_ioctl: loc_ioctl returned %d \n", rpc_ret_val);
+        ALOGV ("loc_eng_ioctl: loc_ioctl returned %d \n", rpc_ret_val);
 
         if (rpc_ret_val == RPC_LOC_API_SUCCESS)
         {
@@ -160,7 +160,7 @@ static boolean loc_eng_ioctl_setup_cb(
     pthread_mutex_lock(&ioctl_cb_data_ptr->cb_data_mutex);
     if (ioctl_cb_data_ptr->cb_is_selected == TRUE)
     {
-        LOGD ("loc_eng_ioctl_setup_cb: ERROR, another ioctl in progress \n");
+        ALOGD ("loc_eng_ioctl_setup_cb: ERROR, another ioctl in progress \n");
         ret_val = FALSE;
     }
     else
@@ -218,7 +218,7 @@ boolean loc_eng_ioctl_wait_cb(
     do {
         if (ioctl_cb_data_ptr->cb_is_selected == FALSE)
         {
-            LOGD ("loc_eng_ioctl_wait_cb: ERROR called when cb_is_waiting is set to FALSE \n");
+            ALOGD ("loc_eng_ioctl_wait_cb: ERROR called when cb_is_waiting is set to FALSE \n");
             ret_val = FALSE;
             break;
         }
@@ -236,7 +236,7 @@ boolean loc_eng_ioctl_wait_cb(
         // Special case where callback is issued before loc_ioctl ever returns
         if (ioctl_cb_data_ptr->cb_has_arrived == TRUE)
         {
-            LOGD ("loc_eng_ioctl_wait_cb: cb has arrived without waiting \n");
+            ALOGD ("loc_eng_ioctl_wait_cb: cb has arrived without waiting \n");
             ret_val = TRUE;
             break;
         }
@@ -256,7 +256,7 @@ boolean loc_eng_ioctl_wait_cb(
             ret_val = FALSE;
         }
 
-        LOGV ("loc_eng_ioctl_wait_cb: pthread_cond_timedwait returned %d\n", rc);
+        ALOGV ("loc_eng_ioctl_wait_cb: pthread_cond_timedwait returned %d\n", rc);
 
     } while (0);
 
@@ -282,7 +282,7 @@ boolean loc_eng_ioctl_wait_cb(
 
     pthread_mutex_unlock(&ioctl_cb_data_ptr->cb_data_mutex);
 
-    LOGV ("loc_eng_ioctl_wait_cb: returned %d\n", ret_val);
+    ALOGV ("loc_eng_ioctl_wait_cb: returned %d\n", ret_val);
     return ret_val;
 }
 
@@ -317,13 +317,13 @@ boolean loc_eng_ioctl_process_cb (
     pthread_mutex_lock(&ioctl_cb_data_ptr->cb_data_mutex);
     if (client_handle != ioctl_cb_data_ptr->client_handle)
     {
-        LOGD ("loc_eng_ioctl_process_cb: client handle mismatch, received = %d, expected = %d \n",
+        ALOGD ("loc_eng_ioctl_process_cb: client handle mismatch, received = %d, expected = %d \n",
                 (int32) client_handle, (int32) ioctl_cb_data_ptr->client_handle);
         ret_val = FALSE;
     }
     else if (cb_data_ptr->type != ioctl_cb_data_ptr->ioctl_type)
     {
-        LOGD ("loc_eng_ioctl_process_cb: ioctl type mismatch, received = %d, expected = %d \n",
+        ALOGD ("loc_eng_ioctl_process_cb: ioctl type mismatch, received = %d, expected = %d \n",
                  cb_data_ptr->type, ioctl_cb_data_ptr->ioctl_type);
         ret_val = FALSE;
     }
@@ -335,7 +335,7 @@ boolean loc_eng_ioctl_process_cb (
 
         ioctl_cb_data_ptr->cb_has_arrived = TRUE;
 
-        LOGV ("loc_eng_ioctl_process_cb: callback arrived for client = %d, ioctl = %d, status = %d\n",
+        ALOGV ("loc_eng_ioctl_process_cb: callback arrived for client = %d, ioctl = %d, status = %d\n",
                 (int32) ioctl_cb_data_ptr->client_handle, ioctl_cb_data_ptr->ioctl_type,
                 (int32) ioctl_cb_data_ptr->cb_payload.status);
 
