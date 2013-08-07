@@ -13,7 +13,8 @@ LOCAL_STATIC_LIBRARIES:= \
 LOCAL_SHARED_LIBRARIES := \
     librpc \
     libutils \
-    libcutils
+    libcutils \
+    liblog \
 
 LOCAL_SRC_FILES += \
     loc_eng.cpp \
